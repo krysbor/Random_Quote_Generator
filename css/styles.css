@@ -1,4 +1,4 @@
-/** 
+/**
  * Treehouse FSJS Techdegree
  * Random Quote Generator - CSS
  */
@@ -55,6 +55,15 @@ body {
 
 .source:before {
   content: "—";
+}
+
+.tags {
+  font-style: italic;
+}
+
+.tags:before {
+  content: " ";
+  font-style: normal;
 }
 
 .citation {

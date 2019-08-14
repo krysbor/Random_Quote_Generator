@@ -1,23 +1,11 @@
-/******************************************
-Treehouse FSJS Techdegree:
-project 1 - A Random Quote Generator
-******************************************/
+/* A random quote generator */
 
-// Study guide for this project - https://drive.google.com/file/d/1s5grutGuQFwJcQP8bFwEI69Q8FCkGdDk/view?usp=sharing
-
-
-/***
-  Create the array of quote objects and name it `quotes`.
-  Add at least five quote objects to the `quotes` array.
-  Give each quote object a `quote` and `source` property.
-  Add the `citation` property to at least one object in the array.
-  Add the `year` property to at least one object in the array.
-  Use console.log() to log your array of quotes to the console.
-***/
+/* Creates the array of quote objects */
 const quotes = [
   {
     quote: 'The Way Get Started Is To Quit Talking And Begin Doing.',
-    source: 'Walt Disney'
+    source: 'Walt Disney',
+    tags: ['motivation', 'success', 'business' ]
   },
   {
     quote: 'The Pessimist Sees Difficulty In Every Opportunity. The Optimist Sees Opportunity In Every Difficulty.',
@@ -29,7 +17,8 @@ const quotes = [
   },
   {
     quote: 'You Learn More From Failure Than From Success.',
-    source: 'Unknown'
+    source: 'Unknown',
+    tags: ['learn', 'failure', 'success']
   },
   {
     quote: 'People Who Are Crazy Enough To Think They Can Change The World, Are The Ones Who Do.',
@@ -44,48 +33,66 @@ const quotes = [
 ]
 
 
-
-
-
-
-/***
-  Create the `getRandomQuote` function to:
-   - Create a variable to store a random number
-   - Cse the random number to `return` a random quote object from the `quotes` array.
-***/
+/* Returns a random quote object from the quotes array */
 function getRandomQuote() {
-  randomNumber = Math.floor(Math.random() * (quotes.length + 1));
+  let randomNumber = Math.floor(Math.random() * quotes.length );
   return quotes[randomNumber]
 }
-console.log(getRandomQuote())
 
 
+/* Returns single random color value */
+function randomColorValue() {
+  let randomValue = Math.floor((Math.random()) * 255)
+  return randomValue
+}
 
 
-/***
-  Create the `printQuote` function to:
-   - Call the `getRandomQuote` function and assign it to a variable.
-   - Create a variable for the HTML string and set it equal to an empty string.
-   - Use the HTML template in the instructions or the markup in the index.html file, AND
-     the random quote vairable to build your HTML string.
-   - Add the quote and source section to the HTML string.
-   - Use an if statement to check for the citation property before adding it to the HTML string.
-   - Use an if statement to check for the year property before adding it to the HTML string.
-   - Don't forget to close that final `p` tag.
-   - Set the `innerHTML` of the `quote-box` div to the HTML string.
-***/
+/* Returns random rgb string */
+function randomRGB() {
+  let randomRed = randomColorValue().toString()
+  let randomGreen = randomColorValue().toString()
+  let randomBlue = randomColorValue().toString()
+  let randomRGB = 'rgb(' + randomRed + ', ' + randomGreen + ', ' + randomBlue + ')'
+  return randomRGB
+}
 
 
+/* Randomly changes the background color */
+function changeBackgroundColor() {
+  document.body.style.backgroundColor = randomRGB()
+}
 
 
-/***
-  When the "Show another quote" button is clicked, the event listener
-  below will be triggered, and it will call, or "invoke", the `printQuote`
-  function. So do not make any changes to the line of code below this
-  comment.
-***/
+/* Prints random quote with additional information on the screen and randomly changes background color of the page */
+function printQuote() {
+  let randomQuote = getRandomQuote()
+  let htmlString = ''
+  htmlString += '<p class="quote">' + randomQuote.quote + '</p>' + '<p class="source">' + randomQuote.source
+  if (randomQuote.citation) {
+    htmlString += '<span class="citation">' + randomQuote.citation + '</span>'
+  }
+  if (randomQuote.year) {
+    htmlString += '<span class="year">' + randomQuote.year + '</span>'
+  }
+  if (randomQuote.tags) {
+    htmlString += '<br><span class="tags">' + randomQuote.tags.join(' #') + '</span>'
+  }
+  htmlString += '</p>'
+  divElement = document.getElementById('quote-box')
+  divElement.innerHTML = htmlString
 
-//document.getElementById('loadQuote').addEventListener("click", printQuote, false);
+  changeBackgroundColor()
+}
 
 
-// Remember to delete the comments that came with this file, and replace them with your own code comments.
+/* Changes quotes and background automatically after a certain amount of time */
+function autoChange() {
+  setInterval(printQuote, 21000)
+}
+
+autoChange()
+
+/* When the "Show another quote" button is clicked, the event listener
+  below will be triggered, and it will call, the`printQuote` function. */
+
+document.getElementById('loadQuote').addEventListener("click", printQuote, false);
